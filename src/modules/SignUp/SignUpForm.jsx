@@ -11,10 +11,15 @@ import {
   HStack,
   Image,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { postFormData } from './SignUpApi';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { authAction } from '../../store/features/authUserSlice';
 function ControlledForm() {
+  const {loading , userToken, success} = useSelector((state)=>state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <Box pt={'6'} display={'flex'} flexDirection={'column'} alignItems={'center'} h="100vh" bg="rgba(18, 15, 19, 1)" gap={'100'}>
       <Image alt='Slack' src='/Slack-logo-inverted-RGB.png' />
