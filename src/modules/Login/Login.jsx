@@ -13,10 +13,10 @@ import {
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom'; // You may need to create an API function for sign-in
 import { useSelector, useDispatch } from 'react-redux';
-import { userLogin } from '../../store/features/authUserSlice';
+import { userLogin } from '../../store/features/auth/authUserSlice';
 function Login() {
   const toast = useToast()
-  const {loading , success, errorMessage,token} = useSelector((state)=>state.auth);
+  const {loading , success, errorMessage} = useSelector((state)=>state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   if(loading === false){

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, autoBatchEnhancer } from "@reduxjs/toolkit";
 import { loginUser, signUp } from "./authUser";
 
-console.log(localStorage);
 // initialize userToken from local storage
 const token = localStorage.getItem('userToken') ?
     localStorage.getItem('userToken') :

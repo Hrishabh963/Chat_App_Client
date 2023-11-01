@@ -11,12 +11,10 @@ import {
   HStack,
   Image,
   useToast,
-  FormHelperText,
-  FormErrorMessage,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSignUp } from '../../store/features/authUserSlice';
+import { userSignUp } from '../../store/features/auth/authUserSlice'; 
 function ControlledForm() {
   const {loading , success, errorMessage} = useSelector((state)=>state.auth);
   const toast = useToast();
