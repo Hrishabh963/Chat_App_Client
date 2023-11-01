@@ -1,23 +1,41 @@
 import { createSlice, createAsyncThunk, autoBatchEnhancer } from "@reduxjs/toolkit";
-import { signUp } from "./authUser";
+import { loginUser, signUp } from "./authUser";
 
+console.log(localStorage);
 // initialize userToken from local storage
-const userToken = localStorage.getItem('userToken') ?
+const token = localStorage.getItem('userToken') ?
     localStorage.getItem('userToken') :
     null
 
 const initialState = {
-    loading: false,
-    userToken,
-    success: false,
+    loading: true,
+    token,
+    success: null,
+    errorMessage: null
 }
 
 export const userSignUp = createAsyncThunk('auth/signup', async(data, { rejectWithValue }) => {
-    const data = await signUp(data);
-    if (!data.token) {
-        return rejectWithValue(data.message);
+    try {
+        const responseData = await signUp(data);
+        if (!responseData.token) {
+            rejectWithValue(responseData);
+        }
+        return responseData;
+    } catch (error) {
+        throw error;
     }
-    return data
+})
+
+export const userLogin = createAsyncThunk('auth/login', async(data, { rejectWithValue }) => {
+    try {
+        const responseData = await loginUser(data);
+        if (!responseData.token) {
+            rejectWithValue(responseData);
+        }
+        return responseData;
+    } catch (error) {
+        throw error;
+    }
 })
 
 const authSlice = createSlice({
@@ -31,8 +49,28 @@ const authSlice = createSlice({
             })
             .addCase(userSignUp.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userToken = action.payload.token;
+                state.token = action.payload.token;
+                localStorage.setItem('userToken', action.payload.token);
                 state.success = true;
+            })
+            .addCase(userSignUp.rejected, (state, action) => {
+                state.loading = false;
+                state.success = false;
+                state.errorMessage = action.error.message;
+            })
+            .addCase(userLogin.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(userLogin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.token = action.payload.token;
+                localStorage.setItem('userToken', action.payload.token);
+                state.success = true;
+            })
+            .addCase(userLogin.rejected, (state, action) => {
+                state.loading = false;
+                state.success = false;
+                state.errorMessage = action.error.message;
             })
     }
 })

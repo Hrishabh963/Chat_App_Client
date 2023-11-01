@@ -10,15 +10,40 @@ import {
   VStack,
   HStack,
   Image,
+  useToast,
+  FormHelperText,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
-import { postFormData } from './SignUpApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { authAction } from '../../store/features/authUserSlice';
+import { userSignUp } from '../../store/features/authUserSlice';
 function ControlledForm() {
-  const {loading , userToken, success} = useSelector((state)=>state.auth);
+  const {loading , success, errorMessage} = useSelector((state)=>state.auth);
+  const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
+  if(loading === false){
+    if(success){
+      toast({
+        title : "Account created",
+        description:"We have successfully created your account" ,
+        status : "success",
+        duration: 3000,
+        isClosable: true,
+      })
+      navigate('/');
+    }
+    else{
+      toast({
+        title : errorMessage,
+        status : "error",
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+  }
+  
 
   return (
     <Box pt={'6'} display={'flex'} flexDirection={'column'} alignItems={'center'} h="100vh" bg="rgba(18, 15, 19, 1)" gap={'100'}>
@@ -46,8 +71,7 @@ function ControlledForm() {
           return errors;
         }}
         onSubmit={(values) => {
-          postFormData(values)
-            .then(() => console.log(`Posted Successfully`));
+          dispatch(userSignUp(values))
         }}
       >
         {() => (

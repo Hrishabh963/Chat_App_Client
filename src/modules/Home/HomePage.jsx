@@ -1,11 +1,20 @@
-import { Box } from '@chakra-ui/react'
-import React from 'react'
-
+import { Box, Flex } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const HomePage = () => {
+  const {token} = useSelector((state)=>state.auth);
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(!token){
+      navigate('/login')
+    }
+  },[])
   return (
-    <Box>
-      <h1>This is home page</h1>
-    </Box>
+    <Flex direction={'column'}>
+      <Box>Slack</Box>
+    </Flex>
+
   )
 }
 

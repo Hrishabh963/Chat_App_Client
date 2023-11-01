@@ -9,11 +9,36 @@ import {
   VStack,
   HStack,
   Image,
+  useToast,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import { postFormData } from './loginApi'; // You may need to create an API function for sign-in
-
+import { Link, useNavigate } from 'react-router-dom'; // You may need to create an API function for sign-in
+import { useSelector, useDispatch } from 'react-redux';
+import { userLogin } from '../../store/features/authUserSlice';
 function Login() {
+  const toast = useToast()
+  const {loading , success, errorMessage,token} = useSelector((state)=>state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  if(loading === false){
+    if(success){
+      toast({
+        title : 'Logged in',
+        duration: 3000,
+        status : 'success',
+        isClosable: true
+      })
+      navigate('/')
+    }
+    else {
+      toast({
+        title : errorMessage,
+        duration: 3000,
+        status : 'error',
+        isClosable: true
+      })
+      
+    }
+  }
   return (
     <Box pt={'6'} display={'flex'} flexDirection={'column'} alignItems={'center'} h="100vh" bg="rgba(18, 15, 19, 1)" gap={'100'}>
       <Image alt='Slack' src='/Slack-logo-inverted-RGB.png' />
@@ -30,8 +55,7 @@ function Login() {
           return errors;
         }}
         onSubmit={(values) => {
-          postFormData(values)
-            .then(() => console.log(`Signed in successfully`));
+          dispatch(userLogin(values));
         }}
       >
         {() => (
