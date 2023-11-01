@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllChatRooms } from '../../store/features/chatroom/chatRoomAction';
 import { Avatar, Box, Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
+import { Link,useNavigate } from 'react-router-dom';
 
 const ChatRoomContainer = () => {
   const [input,setInput] = useState('');
   const {chatrooms} = useSelector((state)=>state.chatroom);
   const {token} = useSelector((state)=> state.auth);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleInput = (event)=>{
     const value = event.target.value;
     setInput(value);
+  }
+
+  const addUserAndNavigate = (chatroom)=>{
   }
 
   useEffect(()=>{
@@ -32,6 +36,7 @@ const ChatRoomContainer = () => {
 
     {filteredRooms.map((chatroom)=>{
         return (
+          <div onClick={()=> addUserAndNavigate(chatroom)}>
             <Box key={chatroom._id}
             p={2}
             borderRadius="md"
@@ -41,6 +46,7 @@ const ChatRoomContainer = () => {
           >
             <Avatar borderRadius={'md'} backgroundColor={'rgba(37, 35, 41, 1)'} fontWeight={'bold'} color={'rgba(255, 255, 255, 1)'}  size={'sm'} name={chatroom.name} /> <Text textTransform={'uppercase'} pt={'1'} fontWeight={'bold'} color={'rgba(189, 189, 189, 1)'} pl={'3'}>{chatroom.name}</Text>
           </Box>
+          </div>
         )
     })}
     </Flex>

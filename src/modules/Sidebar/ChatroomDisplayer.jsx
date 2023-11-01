@@ -1,7 +1,7 @@
 import { Divider, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import ChatroomModal from './ChatroomModal'
-import ChatRoomContainer from './ChatRoomContainer'
+import ChatRoomContainer from './ChatRoomsContainer'
 
 const ChatroomDisplayer = () => {
   return (

@@ -4,16 +4,14 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 const HomePage = () => {
   const {token} = useSelector((state)=>state.auth);
-  const {currentChatroom} = useSelector((state)=>state.chatroom);
   const navigate = useNavigate();
+
   useEffect(()=>{
     if(!token){
       navigate('/login')
     }
-    if(currentChatroom){
-      navigate('/chatroom/currentChatroom')
-    }
   },[])
+
   return (
     <Flex direction={'column'} w={'100%'} bg={'rgba(37, 35, 41, 1)'}>
       <Box w={'100%'} pl={'20'} py={'10px'} boxShadow =" 0px 4px 4px 0px rgba(0, 0, 0, 0.25)"><Text fontWeight={'bold'} fontSize={'xl'} color={'rgba(224, 224, 224, 1)'}>Welcome To Slack</Text></Box>
