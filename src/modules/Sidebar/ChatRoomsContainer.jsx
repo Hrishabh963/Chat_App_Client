@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { authAction } from '../../store/features/auth/authUserSlice';
 import { setCurrentRoom } from '../../store/features/chatroom/chatRoomSlice';
 
-const ChatRoomContainer = () => {
+const ChatRoomContainer = ({showChat}) => {
   const [input,setInput] = useState('');
   const {chatrooms} = useSelector((state)=>state.chatroom);
   const {token,user} = useSelector((state)=> state.auth);
@@ -20,6 +20,7 @@ const ChatRoomContainer = () => {
   }
 
   const addUserAndNavigate = (chatroom)=>{
+    showChat()
     const chatroomId = user.chatrooms.find((id)=>id === chatroom._id);
     if(chatroomId){
       dispatch(setCurrentRoom(chatroom));

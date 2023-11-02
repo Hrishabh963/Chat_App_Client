@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
 import ChatroomDisplayer from './ChatroomDisplayer'
 import User from '../User/User'
-import Members from '../Members/Members'
 import MembersDisplayer from '../Members/MembersDisplayer'
+import { useSelector } from 'react-redux'
 const Sidebar = () => {
+  const {currentChatroom} = useSelector((state)=> state.chatroom);
+  const [showChat,setShowChat] = useState(true);
+  const handleShowChat= ()=>{
+    setShowChat(!showChat);
+  }
   return (
 <Flex minH="100vh" justifyContent={'space-between'}>
 <Box
-    
     bg="rgba(18, 15, 19, 1)"
     color="white"
     pt={'3'}
@@ -18,8 +22,7 @@ const Sidebar = () => {
     flexDirection={'column'}
 
   >
-    <ChatroomDisplayer />
-    <MembersDisplayer />
+    { showChat ? <ChatroomDisplayer showChat={handleShowChat} /> : <MembersDisplayer showChat={handleShowChat} chatroom={currentChatroom} /> }
     <User />
   </Box>
   <Outlet />

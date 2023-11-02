@@ -3,7 +3,7 @@ import React from 'react'
 import ChatroomModal from './ChatroomModal'
 import ChatRoomContainer from './ChatRoomsContainer'
 
-const ChatroomDisplayer = () => {
+const ChatroomDisplayer = ({showChat}) => {
   return (
    <>
     <Flex justify={'space-between'} px={'5'}>
@@ -13,7 +13,7 @@ const ChatroomDisplayer = () => {
     <ChatroomModal />
     </Flex>
     <Divider />
-    <ChatRoomContainer />
+    <ChatRoomContainer showChat={showChat} />
    </>
   )
 }
