@@ -26,3 +26,31 @@ export const postChatRoom = createAsyncThunk('chatroom/postChatroom', async({ da
         throw error;
     }
 })
+
+export const joinChatroom = createAsyncThunk('chatroom/joinChatroom', async({ chatroomId, token }) => {
+    try {
+        const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/chatroom/joinChatroom/${chatroomId}`, null, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+})
+
+
+export const getAllMembersInChatRoom = createAsyncThunk('chatroom/getAllMembersInChatroom', async({ chatroomId, token }) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/chatroom/${chatroomId}/members`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+})

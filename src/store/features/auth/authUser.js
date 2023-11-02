@@ -15,11 +15,7 @@ export const loginUser = async(data) => {
 export const signUp = async(data) => {
     try {
         const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, data)
-        if (response.status !== 200) {
-            console.log(response.status);
-            console.log(response.data);
-            return response.data.message
-        }
+        console.log(response.data);
         return response.data
     } catch (error) {
         throw error.response.data.message;

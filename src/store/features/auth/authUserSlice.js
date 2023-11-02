@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, autoBatchEnhancer } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginUser, signUp } from "./authUser";
 
 // initialize userToken from local storage
@@ -10,7 +10,8 @@ const initialState = {
     loading: true,
     token,
     success: null,
-    errorMessage: null
+    errorMessage: null,
+    user: undefined
 }
 
 export const userSignUp = createAsyncThunk('auth/signup', async(data, { rejectWithValue }) => {
@@ -40,7 +41,11 @@ export const userLogin = createAsyncThunk('auth/login', async(data, { rejectWith
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        addChatroom: (state, action) => {
+            state.user.chatrooms.push(action.payload);
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(userSignUp.pending, (state) => {
@@ -51,6 +56,7 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 localStorage.setItem('userToken', action.payload.token);
                 state.success = true;
+                state.user = action.payload.data;
             })
             .addCase(userSignUp.rejected, (state, action) => {
                 state.loading = false;
@@ -65,6 +71,7 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 localStorage.setItem('userToken', action.payload.token);
                 state.success = true;
+                state.user = action.payload.data;
             })
             .addCase(userLogin.rejected, (state, action) => {
                 state.loading = false;

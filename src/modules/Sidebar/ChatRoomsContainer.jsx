@@ -1,32 +1,46 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllChatRooms } from '../../store/features/chatroom/chatRoomAction';
+import { getAllChatRooms, joinChatroom } from '../../store/features/chatroom/chatRoomAction';
 import { Avatar, Box, Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { Link,useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { authAction } from '../../store/features/auth/authUserSlice';
+import { setCurrentRoom } from '../../store/features/chatroom/chatRoomSlice';
 
 const ChatRoomContainer = () => {
   const [input,setInput] = useState('');
   const {chatrooms} = useSelector((state)=>state.chatroom);
-  const {token} = useSelector((state)=> state.auth);
+  const {token,user} = useSelector((state)=> state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const handleInput = (event)=>{
     const value = event.target.value;
     setInput(value);
   }
 
   const addUserAndNavigate = (chatroom)=>{
+    const chatroomId = user.chatrooms.find((id)=>id === chatroom._id);
+    if(chatroomId){
+      dispatch(setCurrentRoom(chatroom));
+      navigate(`/chatroom/${chatroom._id}`)
+    }
+    else{
+      dispatch(authAction.addChatroom(chatroom._id));
+      dispatch(joinChatroom({chatroomId : chatroom._id,token :token}))
+      navigate(`/chatroom/${chatroom._id}`)
+    }
   }
 
   useEffect(()=>{
     dispatch(getAllChatRooms(token));
   },[])
+
   const filteredRooms = chatrooms.filter((chatroom)=>{
     return chatroom.name.toLowerCase().includes(input.toLowerCase());
   })
   return (
-    <Flex direction={'column'} gap={'2'}>
+    <Flex direction={'column'} gap={'2'} flex={'1'} px={'2'} pt={'2'}>
      <InputGroup>
     <InputLeftElement pointerEvents='none'>
       <SearchIcon color='gray.300' />
@@ -36,8 +50,8 @@ const ChatRoomContainer = () => {
 
     {filteredRooms.map((chatroom)=>{
         return (
-          <div onClick={()=> addUserAndNavigate(chatroom)}>
-            <Box key={chatroom._id}
+          <div key={chatroom._id} onClick={()=> addUserAndNavigate(chatroom)}>
+            <Box 
             p={2}
             borderRadius="md"
             _hover={{ bgColor: 'gray.700', cursor: 'pointer' }}

@@ -1,18 +1,26 @@
 import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import { Outlet } from 'react-router-dom'
-import ChatRoomContainer from './ChatRoomsContainer'
+import ChatroomDisplayer from './ChatroomDisplayer'
+import User from '../User/User'
+import Members from '../Members/Members'
+import MembersDisplayer from '../Members/MembersDisplayer'
 const Sidebar = () => {
   return (
-<Flex minH="100vh">
+<Flex minH="100vh" justifyContent={'space-between'}>
 <Box
-    w="380px"
+    
     bg="rgba(18, 15, 19, 1)"
     color="white"
-    px={5}
-    py={'3'}
+    pt={'3'}
+    flex={'1'}
+    display={'flex'}
+    flexDirection={'column'}
+
   >
-    <ChatRoomContainer />
+    <ChatroomDisplayer />
+    <MembersDisplayer />
+    <User />
   </Box>
   <Outlet />
 </Flex>

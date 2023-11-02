@@ -1,9 +1,11 @@
 import { Box, Button, Flex, Input, InputGroup, InputRightElement, Text } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 const Chatroom = () => {
-  const {id} = useParams();
+  const {currentChatroom} = useSelector((state)=>state.chatroom);
+  console.log(currentChatroom);
   useEffect(()=>{
     
   },[])
