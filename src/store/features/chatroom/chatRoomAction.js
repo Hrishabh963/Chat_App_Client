@@ -54,3 +54,17 @@ export const getAllMembersInChatRoom = createAsyncThunk('chatroom/getAllMembersI
         throw error;
     }
 })
+
+
+export const getCurrentChatroom = createAsyncThunk('chatroom/getCurrentChatroom', async({ chatroomId, token }) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/chatroom//getChatroom/${chatroomId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+})

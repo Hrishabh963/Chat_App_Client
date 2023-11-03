@@ -22,7 +22,8 @@ const Sidebar = () => {
     flexDirection={'column'}
 
   >
-    { showChat ? <ChatroomDisplayer showChat={handleShowChat} /> : <MembersDisplayer showChat={handleShowChat} chatroom={currentChatroom} /> }
+    { showChat ? <ChatroomDisplayer showChat={handleShowChat} /> : null }
+    {!showChat && currentChatroom ? <MembersDisplayer showChat={handleShowChat} chatroom={currentChatroom} /> : null}
     <User />
   </Box>
   <Outlet />

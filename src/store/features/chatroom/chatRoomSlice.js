@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllChatRooms, postChatRoom, joinChatroom, getAllMembersInChatRoom } from "./chatRoomAction";
+import { getAllChatRooms, postChatRoom, joinChatroom, getAllMembersInChatRoom, getCurrentChatroom } from "./chatRoomAction";
 
 
 const initialState = {
