@@ -18,6 +18,7 @@ const Members = () => {
         {currentChatroomMembers.map((member)=>{
             return(
                 <Box 
+                key={member._id}
                 borderRadius="md"
                 _hover={{ bgColor: 'gray.700', cursor: 'pointer' }}
                 mb={2}

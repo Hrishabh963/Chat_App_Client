@@ -1,22 +1,16 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getMessages } from '../../store/features/message/messageActions';
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 
-const Messages = ({chatroomId}) => {
-  const {messages} = useSelector((state)=> state.message);
-  const {token} = useSelector((state)=> state.auth);
-  const dispatch = useDispatch();
+const Messages = ({chatroomId,messages= []}) => {
   console.log(messages);
-  useEffect(()=>{
-    dispatch(getMessages({chatroomId, token}))
-  },[])
+
+  
   return (
     <>
-      {messages.map((message)=>{
+      {messages.map((message,index)=>{
         const date = formatDate(message.message.createdAt);
         return(
-            <Flex>
+            <Flex key={index}>
                 <Box>
                     <Avatar name={message.user.username} backgroundColor={'rgba(11, 9, 12, 1)'} borderRadius={'md'} fontWeight={'bold'} color={'rgba(255, 255, 255, 1)'}  size={'sm'}  />
                 </Box>

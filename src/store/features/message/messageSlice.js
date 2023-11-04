@@ -9,6 +9,11 @@ const initialState = {
 const messageSlice = createSlice({
     name: 'message',
     initialState,
+    reducers: {
+        addMessageFromSocket: (state, action) => {
+            state.messages.push(action.payload);
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(postMessage.fulfilled, (state, action) => {
@@ -21,5 +26,7 @@ const messageSlice = createSlice({
 
     }
 })
+
+export const { addMessageFromSocket } = messageSlice.actions;
 
 export const messageReducer = messageSlice.reducer;
